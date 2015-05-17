@@ -16,6 +16,7 @@ client = MongoClient()
 db = client.homeserv
 collection = db.media
 
+
 THUMB_SIZE = 800,800
 
 # Supported Filetypes ( for now )
@@ -28,7 +29,7 @@ DB_ERRORS = ['db_errors']
 IM_ERRORS = ['im_errors']
 
 # Directory of media to scan
-SOURCE_MEDIA_DIR = '/Volumes/SATA 1500/Pictures'
+SOURCE_MEDIA_DIR = '/Volumes/SATA 1500/homeserv_media/'
 
 
 # EXIF metadata to store - and give it a nice new name that I recognize
@@ -49,6 +50,7 @@ def findImage():
     # as well as the filename for the proxy and location ( dirs split every 2 characters )
     TAG_LIST = {}
     m = hashlib.md5()
+    found_files = []
     print 'helloooo'
     count = 0
     try:
@@ -77,15 +79,18 @@ def findImage():
                     #for x,y in meta.iteritems():
                     #    print x,':',y,type(y)
                     #proxify(file_path, file_hash_dir+file_hash+'.jpg')
-                    search_file = file_hash_dir+file_hash+'.jpg'
+                    outfile = file_hash_dir+file_hash+'.jpg'
                     try:
-                        results = collection.find({'OriginalPath':search_file})
-                        print search_file
-                        results = results.count()
-                        if results != 0:
+#                        results = collection.find({'OriginalPath':search_file})
+#                        print search_file
+#                        results = results.count()
+                        if os.path.exists(outfile):
+#                        if results != 0:
                             count += 1
-                            print search_file
-#                            shutil.rmtree(file_hash_dir)
+                            print outfile, '<---------------  found one!'
+                            shutil.rmtree(outfile)
+                            found_files.append(outfile)
+
                         #insert_id = collection.insert_one(meta).inserted_id
                         #if os.path.exists( file_path, file_hash_dir+file_hash+'.jpg' ):
                         #print insert_id
@@ -94,6 +99,7 @@ def findImage():
                         print 'error adding to db: ',file_path
 #                        DB_ERRORS.append(meta.file_path)
                     #sys.exit()
+        return found_files
     except:
         print traceback.print_exc()
         #print 'Found',count,'items'
