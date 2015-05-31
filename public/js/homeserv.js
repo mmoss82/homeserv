@@ -12,18 +12,34 @@ $("document").ready( function () {
 		$.ajax({
 		  method: "GET",
 		  url: "/images",
-			success: function (data) {
-				console.log('success', data);
-				for (var i = 0; i < data.length; i ++ ) {
-				 var image = String ()
-					+ '<div class="col-lg-3 col-md-4 col-xs-6 thumb">'
-			    	+ '<a class="thumbnail" href="#">'
-			        + '<img class="img-responsive" src="' + parseFileDir(data[i].id)+data[i].id+'.jpg' + '" alt="">'
-						+ '</a>'
-					+ '</div>'
-					$(image).appendTo($("#main-images-thumbs"))	
-					}
-				},
+			success: function (result) {
+				        var carouselLinks = [],
+				            linksContainer = $('#links'),
+				            baseUrl;
+				        // Add the demo images as links with thumbnails to the page:
+				        $.each(result, function (index, photo) {
+									// parseFileDir(data[i].id)+data[i].id+'.jpg'
+									baseUrl = parseFileDir(result[index].id)+result[index].id+'.jpg';
+				            $('<a/>')
+				                .append($('<img>').prop('src', baseUrl).prop('class', 'image-gallery'))
+				                .prop('href', baseUrl)
+				                .prop('title', photo.title)
+				                .attr('data-gallery', '')
+				                .appendTo(linksContainer);
+				            carouselLinks.push({
+				                href: baseUrl,
+				                title: photo.title
+				            });
+				        });
+				        // Initialize the Gallery as image carousel:
+				        blueimp.Gallery(carouselLinks, {
+				            container: '#blueimp-image-carousel',
+				            carousel: true
+				        });
+				    },	
+				
+				
+				
 			error: function ( data ) {
 				console.log('error', data)
 				}

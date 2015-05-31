@@ -10,3 +10,7 @@ body {
 footer {
     margin: 50px 0;
 }
+.image-gallery {
+	width: 300px;
+	height: auto;
+}

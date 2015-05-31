@@ -10,6 +10,26 @@ var pg = require('knex')({
     database : 'homeserv'
   }
 });
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex ;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
 app.use(express.static(__dirname + '/public'));
 app.use(express.static('/Volumes/SATA 1500/homeserv_media/'))
 
@@ -23,9 +43,9 @@ app.get('/', function (req, res) {
 app.get('/images', function (req, res) {
 	pg.select('*	')
 		.from('media')
-		.limit(2000)
 		.asCallback( function ( err, rows ) {
-			res.json(rows.slice(0,2000));
+			shuffle(rows);
+			res.json(rows.slice(0,100));
 		})
 	});
 var server = app.listen(3000, function () {
