@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/Users/matt/.virtualenvs/homeserv/bin/python
+
 # Created by Matt Moss 4/29/15
 # Processor to create a media database given a folder of images or other media specified in the FILETYPES array.
 import os
@@ -10,6 +11,7 @@ from pymongo import MongoClient
 from datetime import datetime
 import traceback
 import shutil
+import rawpy
 
 # Mongo Database Config
 client = MongoClient()
@@ -17,10 +19,11 @@ db = client.homeserv
 collection = db.media
 
 
-THUMB_SIZE = 800,800
+THUMB_SIZE = [(250,250),(800,800)]
 
 # Supported Filetypes ( for now )
 FILETYPES = ('.jpg', '.JPG', '.TIF', '.tif', '.tiff', '.TIFF', '.psd', '.NEF', '.nef', '.CR2', '.cr2', '.PSD','.jpeg','.JPEG')
+RAW_EXTENSIONS = ['.nef', '.cr2', '.dng']
 
 # Object to count filetypes in search directory
 FILEINDEX = {x.lower():0 for x in FILETYPES}
@@ -29,7 +32,7 @@ DB_ERRORS = ['db_errors']
 IM_ERRORS = ['im_errors']
 
 # Directory of media to scan
-SOURCE_MEDIA_DIR = '/Volumes/SATA 1500/homeserv_media/'
+SOURCE_MEDIA_DIR = '/Volumes/SATA 1500/'
 
 
 # EXIF metadata to store - and give it a nice new name that I recognize
@@ -57,61 +60,66 @@ def findImage():
         for root, dirs, files in os.walk(SOURCE_MEDIA_DIR):
             for f in files:
                 ext = os.path.splitext(f)[-1]
-                if ext in FILETYPES:# and '/Volumes/SATA 1500/homeserv_media' not in root : # This is where I went wrong! DOUBLECHECK!!!
+                if ext in FILETYPES and '/Volumes/SATA 1500/homeserv_media' not in root : # This is where I went wrong! DOUBLECHECK!!!
                     file_path = os.path.join(root, f)
                     #TMP!!
                     #file_path = '/Volumes/SATA 1500/iphone photos/ANNA/201404-201406/IMG_6139.JPG'
                     m.update(file_path)
                     file_hash = m.hexdigest()[:16]
                     file_hash_dir = OUTDIR+'/'.join([file_hash[x:x+2] for x in range(0,len(file_hash),2)])+'/'
-                    '''
+                    
                     tags = exifread.process_file(open(file_path, 'rb'))
                     meta = makeMeta(tags)
                     meta['OriginalPath'] = file_path
                     meta['_id'] = file_hash
                     meta['hash_dir'] = file_hash_dir
                     meta['CreationDate'] = datetime.fromtimestamp(os.path.getctime(file_path))
-                    '''
-                    #for x,y in tags.iteritems():
-                    #    if x not in TAG_LIST and x not in ('JPEGThumbnail', 'TIFFThumbnail', 'Filename', 'EXIF MakerNote') and y != '':
-                    #        TAG_LIST[x]=y
-                    #FILEINDEX[ext.lower()] += 1
+                    
+                    for x,y in tags.iteritems():
+                        if x not in TAG_LIST and x not in ('JPEGThumbnail', 'TIFFThumbnail', 'Filename', 'EXIF MakerNote') and y != '':
+                            TAG_LIST[x]=y
+                    FILEINDEX[ext.lower()] += 1
+                    
                     #for x,y in meta.iteritems():
                     #    print x,':',y,type(y)
-                    #proxify(file_path, file_hash_dir+file_hash+'.jpg')
+                    proxify(file_path, file_hash_dir+file_hash)
                     outfile = file_hash_dir+file_hash+'.jpg'
+                    
                     try:
-#                        results = collection.find({'OriginalPath':search_file})
-#                        print search_file
-#                        results = results.count()
-                        if os.path.exists(outfile):
-#                        if results != 0:
-                            count += 1
-                            print outfile, '<---------------  found one!'
-                            shutil.rmtree(outfile)
-                            found_files.append(outfile)
-
-                        #insert_id = collection.insert_one(meta).inserted_id
-                        #if os.path.exists( file_path, file_hash_dir+file_hash+'.jpg' ):
-                        #print insert_id
+                        insert_id = collection.insert_one(meta).inserted_id                        
+                        print outfile
                     except:
                         print traceback.print_exc()
                         print 'error adding to db: ',file_path
-#                        DB_ERRORS.append(meta.file_path)
+                        DB_ERRORS.append(meta.file_path)
                     #sys.exit()
         return found_files
     except:
         print traceback.print_exc()
-        #print 'Found',count,'items'
-        #for x,y in FILEINDEX.iteritems():
-        #    print x,y
+        print 'Found',count,'items'
+        for x,y in FILEINDEX.iteritems():
+            print x,y
 
 def proxify(file_path, out_path):
     os.makedirs(os.path.dirname(out_path))
+    
     try:
-        im = Image.open(file_path)
-        im.thumbnail(THUMB_SIZE, Image.ANTIALIAS)
-        im.save(out_path, "JPEG")
+
+        # create image object for raw files through rawpy module
+        if os.path.splitext(file_path)[-1].lower() in RAW_EXTENSIONS:
+            print 'processing raw image'
+            raw = rawpy.imread(file_path)
+            rbg = raw.postprocess()
+            im = Image.fromarray(rgb)
+        else:
+            # otherwise every other image type (not raw)
+            im = Image.open(file_path)
+
+        for s in THUMB_SIZE:
+            im2 = im.copy()
+            im2.thumbnail(s, Image.ANTIALIAS)
+            im2.save(out_path + '_' + THUMB_SIZE.index(s) + '.jpg', "JPEG")
+            im2.close()
         im.close()
     except:
         print traceback.print_exc()

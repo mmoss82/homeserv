@@ -10,7 +10,15 @@ body {
 footer {
     margin: 50px 0;
 }
-.image-gallery {
-	width: 300px;
-	height: auto;
+.thumb-container { 
+/*	background: url('') 50% 50% no-repeat; /* 50% 50% centers image in div */
+	width: 250px;
+	height: 250px;
+	display: inline-block;
+}
+
+.thumb{
+	display: block;
+	width: 250px;
+	height: 250px;
 }

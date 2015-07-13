@@ -19,17 +19,24 @@ $("document").ready( function () {
 				        // Add the demo images as links with thumbnails to the page:
 				        $.each(result, function (index, photo) {
 									// parseFileDir(data[i].id)+data[i].id+'.jpg'
-									baseUrl = parseFileDir(result[index].id)+result[index].id+'.jpg';
-				            $('<a/>')
-				                .append($('<img>').prop('src', baseUrl).prop('class', 'image-gallery'))
-				                .prop('href', baseUrl)
+									var hash_id = result[index].id
+									baseUrl = parseFileDir(hash_id)+hash_id+'.jpg';
+				            $('<div>')
+
 				                .prop('title', photo.title)
+												.prop('class', 'thumb-container')
+												.prop('id',hash_id)
 				                .attr('data-gallery', '')
 				                .appendTo(linksContainer);
 				            carouselLinks.push({
 				                href: baseUrl,
 				                title: photo.title
 				            });
+										$('#'+hash_id).css('background', 'url('+baseUrl+')')
+											.css('background-size', '350px auto')
+											.css('background-position-x', '50%')
+											.css('background-position-y', '50%')
+										
 				        });
 				        // Initialize the Gallery as image carousel:
 				        blueimp.Gallery(carouselLinks, {
