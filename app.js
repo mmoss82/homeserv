@@ -1,12 +1,13 @@
 var express = require('express');
 var app = express();
+var config = require('fs').readFile('/etc/homeserv.conf')
 
 var pg = require('knex')({
   client: 'pg',
   connection: {
     host     : 'localhost',
     user     : 'matt',
-		password : 'mo55w3sl3y!?',
+		password : config.pass,
     database : 'homeserv'
   }
 });
@@ -43,8 +44,9 @@ app.get('/', function (req, res) {
 app.get('/images', function (req, res) {
 	pg.select('*	')
 		.from('media')
+		.limit(100)
 		.asCallback( function ( err, rows ) {
-			shuffle(rows);
+//			shuffle(rows);
 			res.json(rows.slice(0,100));
 		})
 	});
