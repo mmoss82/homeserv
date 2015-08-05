@@ -12,11 +12,19 @@ from datetime import datetime
 import traceback
 import shutil
 import rawpy
+import psycopg2
+import sys
+import json
 
 # Mongo Database Config
-client = MongoClient()
-db = client.homeserv
+client     = MongoClient()
+db         = client.homeserv
 collection = db.media
+
+# Postgres Database Config
+#con = psycopg2.connect("dbname='homeserv' user='matt'")   
+#cur = con.cursor() 
+
 
 
 THUMB_SIZE = [(250,250),(800,800)]
@@ -82,17 +90,23 @@ def findImage():
                     
                     #for x,y in meta.iteritems():
                     #    print x,':',y,type(y)
-                    proxify(file_path, file_hash_dir+file_hash)
                     outfile = file_hash_dir+file_hash+'.jpg'
                     
-                    try:
-                        insert_id = collection.insert_one(meta).inserted_id                        
-                        print outfile
-                    except:
-                        print traceback.print_exc()
-                        print 'error adding to db: ',file_path
-                        DB_ERRORS.append(meta.file_path)
+                    if not os.path.exists(os.path.dirname(outfile)):
+                        proxify(file_path, file_hash_dir+file_hash)
+                    
+                        try:
+                            insert_id = collection.insert_one(meta).inserted_id
+                            print outfile, os.path.basename(file_path), ' <---- inserting'
+                            
+                        except:
+                            print traceback.print_exc()
+                            print 'error adding to db: ',file_path
+                            DB_ERRORS.append(meta.file_path)
                     #sys.exit()
+                    else:
+                        print outfile, os.path.basename(file_path)
+                        
         return found_files
     except:
         print traceback.print_exc()
@@ -118,7 +132,7 @@ def proxify(file_path, out_path):
         for s in THUMB_SIZE:
             im2 = im.copy()
             im2.thumbnail(s, Image.ANTIALIAS)
-            im2.save(out_path + '_' + THUMB_SIZE.index(s) + '.jpg', "JPEG")
+            im2.save(out_path + '_' + str(THUMB_SIZE.index(s)) + '.jpg', "JPEG")
             im2.close()
         im.close()
     except:
