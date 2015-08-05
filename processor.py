@@ -123,7 +123,7 @@ def proxify(file_path, out_path):
         if os.path.splitext(file_path)[-1].lower() in RAW_EXTENSIONS:
             print 'processing raw image'
             raw = rawpy.imread(file_path)
-            rbg = raw.postprocess()
+            rgb = raw.postprocess()
             im = Image.fromarray(rgb)
         else:
             # otherwise every other image type (not raw)
