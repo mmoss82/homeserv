@@ -72,40 +72,41 @@ def findImage():
                     file_path = os.path.join(root, f)
                     #TMP!!
                     #file_path = '/Volumes/SATA 1500/iphone photos/ANNA/201404-201406/IMG_6139.JPG'
-                    m.update(file_path)
-                    file_hash = m.hexdigest()[:16]
-                    file_hash_dir = OUTDIR+'/'.join([file_hash[x:x+2] for x in range(0,len(file_hash),2)])+'/'
+
+                    if not collection.find_one({'OriginalPath':file_path}):
+                        m.update(file_path)
+                        file_hash = m.hexdigest()[:16]
+                        file_hash_dir = OUTDIR+'/'.join([file_hash[x:x+2] for x in range(0,len(file_hash),2)])+'/'
                     
-                    tags = exifread.process_file(open(file_path, 'rb'))
-                    meta = makeMeta(tags)
-                    meta['OriginalPath'] = file_path
-                    meta['_id'] = file_hash
-                    meta['hash_dir'] = file_hash_dir
-                    meta['CreationDate'] = datetime.fromtimestamp(os.path.getctime(file_path))
+                        tags = exifread.process_file(open(file_path, 'rb'))
+                        meta = makeMeta(tags)
+                        meta['OriginalPath'] = file_path
+                        meta['_id'] = file_hash
+                        meta['hash_dir'] = file_hash_dir
+                        meta['CreationDate'] = datetime.fromtimestamp(os.path.getctime(file_path))
                     
-                    for x,y in tags.iteritems():
-                        if x not in TAG_LIST and x not in ('JPEGThumbnail', 'TIFFThumbnail', 'Filename', 'EXIF MakerNote') and y != '':
-                            TAG_LIST[x]=y
-                    FILEINDEX[ext.lower()] += 1
+                        for x,y in tags.iteritems():
+                            if x not in TAG_LIST and x not in ('JPEGThumbnail', 'TIFFThumbnail', 'Filename', 'EXIF MakerNote') and y != '':
+                                TAG_LIST[x]=y
+                        FILEINDEX[ext.lower()] += 1
                     
-                    #for x,y in meta.iteritems():
-                    #    print x,':',y,type(y)
-                    outfile = file_hash_dir+file_hash+'.jpg'
+                        #for x,y in meta.iteritems():
+                        #    print x,':',y,type(y)
+                        outfile = file_hash_dir+file_hash+'.jpg'
                     
-                    if not os.path.exists(os.path.dirname(outfile)):
                         proxify(file_path, file_hash_dir+file_hash)
-                    
+                
                         try:
                             insert_id = collection.insert_one(meta).inserted_id
                             print outfile, os.path.basename(file_path), ' <---- inserting'
-                            
+                        
                         except:
                             print traceback.print_exc()
                             print 'error adding to db: ',file_path
                             DB_ERRORS.append(meta.file_path)
                     #sys.exit()
                     else:
-                        print outfile, os.path.basename(file_path)
+                        print os.path.basename(file_path)
                         
         return found_files
     except:
