@@ -10,15 +10,14 @@ body {
 footer {
     margin: 50px 0;
 }
-.thumb-container { 
-/*	background: url('') 50% 50% no-repeat; /* 50% 50% centers image in div */
-	width: 250px;
-	height: 250px;
-	display: inline-block;
+ul {
+    padding:0 0 0 0;
+    margin:0 0 0 0;
 }
-
-.thumb{
-	display: block;
-	width: 250px;
-	height: 250px;
+ul li {
+    list-style:none;
+    margin-bottom:25px;
+}
+ul li img {
+    cursor: pointer;
 }

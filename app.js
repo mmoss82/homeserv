@@ -2,6 +2,11 @@ var express = require('express');
 var app = express();
 var config = require('fs').readFile('/etc/homeserv.conf')
 
+var MongoClient = require('mongodb').MongoClient;
+
+
+
+/*
 var pg = require('knex')({
   client: 'pg',
   connection: {
@@ -11,6 +16,7 @@ var pg = require('knex')({
     database : 'homeserv'
   }
 });
+*/
 
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex ;
@@ -42,7 +48,7 @@ app.get('/', function (req, res) {
 
 
 app.get('/images', function (req, res) {
-	pg.select('*	')
+/*	pg.select('*	')
 		.from('media')
 		.limit(100)
 		.asCallback( function ( err, rows ) {
@@ -50,6 +56,22 @@ app.get('/images', function (req, res) {
 			res.json(rows.slice(0,100));
 		})
 	});
+	*/
+	MongoClient.connect("mongodb://localhost:27017/homeserv", function(err, db) {
+	  if(!err) {
+	    console.log("We are connected");
+			var collection = db.collection('media');
+//			console.log(collection);
+			collection.find({},{},{ limit : 5000 }).toArray(function(err, items) {
+				console.log(items);
+				res.json(shuffle(items.slice(0,200)));
+				db.close();		
+				
+			});
+	  }
+	});
+});
+
 var server = app.listen(3000, function () {
 
   var host = server.address().address;
