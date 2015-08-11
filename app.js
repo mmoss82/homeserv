@@ -1,8 +1,19 @@
 var express = require('express');
 var app = express();
-var config = require('fs').readFile('/etc/homeserv.conf')
+var config = require('fs').readFile('/etc/homeserv.conf');
 
 var MongoClient = require('mongodb').MongoClient;
+
+var server = app.listen(3000, function () {
+
+  var host = server.address().address;
+  var port = server.address().port;
+
+  console.log('Example app listening at http://%s:%s', host, port);
+
+});
+var io = require('socket.io')(server);
+
 
 
 
@@ -47,36 +58,64 @@ app.get('/', function (req, res) {
 });
 
 
-app.get('/images', function (req, res) {
-/*	pg.select('*	')
-		.from('media')
-		.limit(100)
-		.asCallback( function ( err, rows ) {
-//			shuffle(rows);
-			res.json(rows.slice(0,100));
-		})
-	});
-	*/
-	MongoClient.connect("mongodb://localhost:27017/homeserv", function(err, db) {
-	  if(!err) {
-	    console.log("We are connected");
-			var collection = db.collection('media');
-//			console.log(collection);
-			collection.find({},{},{ limit : 5000 }).toArray(function(err, items) {
-				console.log(items);
-				res.json(shuffle(items.slice(0,200)));
-				db.close();		
-				
-			});
-	  }
-	});
+io.on('connection', function (socket) {
+  var addedUser = false,
+	images = [];
+
+	console.log('user connected');
+  // when the client emits 'new message', this listens and executes
+  socket.on('initialLoad', function (data) {
+		console.log('loading');
+		MongoClient.connect("mongodb://localhost:27017/homeserv", function(err, db) {
+		  if(!err) {
+		    console.log("We are connected");
+				var collection = db.collection('media');
+			
+
+				var cursor = collection.find({
+						"Datetime" : { $gte : new Date("2010/01/01") }
+					},
+					{},
+					{ limit : 100 }
+				);
+				    cursor.on('data', function(doc) {
+							console.log(doc);
+				      images.push(doc);
+				    });
+/*
+				    cursor.once('end', function() {
+				      db.close();
+				    });
+	
+				collection.find(
+					{
+						"Datetime" : { $gte : new Date("2010/01/01") }
+					}
+				).on(data, )(function(err, items) {
+					console.log(items);
+				});
+				*/
+				/*
+				collection.find({},{},{ limit : 10 }).toArray(function(err, items) {
+					if (err) {console.log(err);}
+					console.log(items);
+					res.json(items);//shuffle(items.slice(0,200)));
+					db.close();		
+				});
+				*/
+		  }
+		});
+  });
+
+	socket.on('loadMore', function (max) {
+			// send more data on request
+		console.log(max);
+		
+	    socket.emit('moreImages', {
+	      data: images.slice(max,max+10)
+	    });
+	  });
+	
 });
 
-var server = app.listen(3000, function () {
 
-  var host = server.address().address;
-  var port = server.address().port;
-
-  console.log('Example app listening at http://%s:%s', host, port);
-
-});

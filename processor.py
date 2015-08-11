@@ -44,16 +44,33 @@ SOURCE_MEDIA_DIR = '/Volumes/SATA 1500/'
 
 
 # EXIF metadata to store - and give it a nice new name that I recognize
-METATAGS = {'Image BitsPerSample':'BitDepth', 'Image ImageLength':'Height', 'Image ImageWidth':'Width',
-            'Image Compression':'Compression', 'Image DateTime':'Datetime', 'Image XResolution':'DPI',
-            'EXIF ColorSpace':'Colorspace', 'Image Orientation':'Orientation', 'EXIF DateTimeOriginal':'OriginalDateTime',
-            'MakerNote Quality':'CompressionQual', 'EXIF ISOSpeedRatings':'ISO', 'EXIF ExposureTime':'ShutterSpeed',
-            'EXIF FocalLength':'FocalLength', 'Image Model':'Camera', 'EXIF ExifImageLength':'Height',
-            'EXIF ExifImageWidth':'Width', 'GPS GPSLatitudeRef':'GPS GPSLatitudeRef', 'GPS GPSAltitudeRef':'GPS GPSAltitudeRef',
-            'GPS GPSLongitude':'GPS GPSLongitude','GPS GPSImgDirectionRef':'GPS GPSImgDirectionRef',
-            'GPS GPSImgDirection':'GPS GPSImgDirection','GPS GPSLatitude':'GPS GPSLatitude',
-            'GPS GPSTimeStamp':'GPS GPSTimeStamp','GPS GPSAltitude':'GPS GPSAltitude','GPS GPSLongitudeRef':'GPS GPSLongitudeRef'
-            }
+METATAGS = {
+    'Image BitsPerSample':'BitDepth',
+    'Image ImageLength':'Height', 
+    'Image ImageWidth':'Width',
+    'Image Compression':'Compression', 
+    'Image DateTime':'Datetime', 
+    'Image XResolution':'DPI',
+    'EXIF ColorSpace':'Colorspace', 
+    'Image Orientation':'Orientation', 
+    'EXIF DateTimeOriginal':'OriginalDateTime',
+    'MakerNote Quality':'CompressionQual', 
+    'EXIF ISOSpeedRatings':'ISO', 
+    'EXIF ExposureTime':'ShutterSpeed',
+    'EXIF FocalLength':'FocalLength', 
+    'Image Model':'Camera', 
+    'EXIF ExifImageLength':'Height',
+    'EXIF ExifImageWidth':'Width', 
+    'GPS GPSLatitudeRef':'GPS GPSLatitudeRef', 
+    'GPS GPSAltitudeRef':'GPS GPSAltitudeRef',
+    'GPS GPSLongitude':'GPS GPSLongitude',
+    'GPS GPSImgDirectionRef':'GPS GPSImgDirectionRef',
+    'GPS GPSImgDirection':'GPS GPSImgDirection',
+    'GPS GPSLatitude':'GPS GPSLatitude',
+    'GPS GPSTimeStamp':'GPS GPSTimeStamp',
+    'GPS GPSAltitude':'GPS GPSAltitude',
+    'GPS GPSLongitudeRef':'GPS GPSLongitudeRef'
+}
 
 def findImage():
     # This is where the magic happens
@@ -70,8 +87,6 @@ def findImage():
                 ext = os.path.splitext(f)[-1]
                 if ext in FILETYPES and '/Volumes/SATA 1500/homeserv_media' not in root : # This is where I went wrong! DOUBLECHECK!!!
                     file_path = os.path.join(root, f)
-                    #TMP!!
-                    #file_path = '/Volumes/SATA 1500/iphone photos/ANNA/201404-201406/IMG_6139.JPG'
 
                     if not collection.find_one({'OriginalPath':file_path}):
                         m.update(file_path)
@@ -105,8 +120,8 @@ def findImage():
                             print 'error adding to db: ',file_path
                             DB_ERRORS.append(meta.file_path)
                     #sys.exit()
-                    else:
-                        print os.path.basename(file_path)
+#                    else:
+#                        print os.path.basename(file_path) # Disabled for speed
                         
         return found_files
     except:
