@@ -3,7 +3,7 @@ var socket = io();
 var imageMax=0;
 $("document").ready( function () {
 
-	socket.emit('initialLoad'); // request mongo to start adding to images list;
+//	socket.emit('initialLoad'); // request mongo to start adding to images list;
 
 	var parseFileDir = function (id) {
 		return id.slice(0,2) + '/' + id.slice(2,4) + '/' + id.slice(4,6) + '/' + id.slice(6,8)
@@ -35,13 +35,14 @@ $("document").ready( function () {
 				break;
 			}
 		})
+		
 	$(document).keyup(function(e){
 		if (event.keyCode === 32){
 			console.log(imageMax);
-			socket.emit('loadMore', imageMax);
+ 			socket.emit('loadMore', imageMax)
 		}
 	})
-	
+		
 	function addImages ( result ) {
 			var carouselLinks = [],
 			linksContainer = $('#links'),
@@ -53,7 +54,8 @@ $("document").ready( function () {
 				// parseFileDir(data[i].id)+data[i].id+'.jpg'
 				var hash_id = photo._id
 				baseUrl = parseFileDir(hash_id)+hash_id;
-				$(".row").append('<li id="'+index+'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><img id="'+index+'-img" src="'+baseUrl+'_0.jpg'+'"/></li>');
+				i = (parseInt(imageMax)+parseInt(index)).toString();
+				$(".image-row").append('<li id="'+i+'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><img id="'+index+'-img" src="'+baseUrl+'_0.jpg'+'"/></li>');
 			})
 								
 			$('li img').on('click',function(e){
@@ -73,7 +75,14 @@ $("document").ready( function () {
 	$('#moreButton').on('click', function (e) {
 		e.preventDefault();
 		console.log('socketing');
-		socket.emit('loadMore', 0);
+	  var date = $('#datetimepicker2').val();
+		$(".image-row").empty();
+		socket.emit('initialLoad', 
+			{
+				imageMax : 0,
+				date : date
+			}
+		);
 	})
 	socket.on('moreImages', function (results) {
 		addImages(results);		

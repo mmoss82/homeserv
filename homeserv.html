@@ -11,8 +11,21 @@
     <!-- Bootstrap -->
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/homeserv.css">
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+	
+		<script src="js/jq/jquery-2.1.4.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
 	  <script src="/socket.io/socket.io.js"></script>
+		
+		<script src="js/homeserv.js"></script>
+	
+
+		
+		<script type="text/javascript" src="../bower_components/moment/min/moment.min.js"></script>
+	  <script type="text/javascript" src="../bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
+	  <link rel="stylesheet" href="../bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		
 
   </head>
@@ -24,35 +37,36 @@
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#"></a>
+					    <div class="row">
+					        <div class='col-sm-6'>
+					            <div class="form-group">
+					                <div class='input-group date' id='datetimepicker1'>
+					                    <input type='text' class="form-control" id='datetimepicker2'/>
+					                    <span class="input-group-addon">
+					                        <span class="glyphicon glyphicon-calendar"></span>
+					                    </span>
+					                </div>
+					            </div>
+					        </div>
+					        <script type="text/javascript">
+					            $(function () {
+					                $('#datetimepicker1').datetimepicker(
+					                	{format: 'MM/DD/YYYY'}
+					                );
+					            });
+					        </script>
+					    </div>
+        			<button type="button" id="moreButton">get more images</button>
+				
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="#"></a>
-                    </li>
-                    <li>
-                        <a href="#"></a>
-                    </li>
-                    <li>
-                        <a href="#"></a>
-                    </li>
-                </ul>
-            </div>
+   
             <!-- /.navbar-collapse -->
-        <button type="button" id="moreButton">get more images</button>
 				</div>
         <!-- /.container -->
     </nav>
 		<div class="container">
-			<ul class="row">
+			<ul class="image-row">
     	</ul>
 		</div>
 
@@ -66,11 +80,6 @@
     </div><!-- /.modal -->
 
 	<br>
-	
-	<script src="js/jq/jquery-2.1.4.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/homeserv.js"></script>
-	
    
   </body>
 </html>

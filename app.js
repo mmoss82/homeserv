@@ -63,8 +63,20 @@ io.on('connection', function (socket) {
 	images = [];
 
 	console.log('user connected');
+	
+
+	socket.on('loadMore', function (max) {
+			// send more data on request
+		console.log(max);
+		
+	    socket.emit('moreImages', {
+	      data: images.slice(max,max+10)
+	    });
+	  });
+	
+	
   // when the client emits 'new message', this listens and executes
-  socket.on('initialLoad', function (data) {
+  socket.on('initialLoad', function (map) {
 		console.log('loading');
 		MongoClient.connect("mongodb://localhost:27017/homeserv", function(err, db) {
 		  if(!err) {
@@ -73,13 +85,13 @@ io.on('connection', function (socket) {
 			
 
 				var cursor = collection.find({
-						"Datetime" : { $gte : new Date("2010/01/01") }
+						"CreationDate" : { $gte : new Date(map.date) }
 					},
-					{},
-					{ limit : 100 }
+					{}
+//					{ limit : 2000 }
 				);
 				    cursor.on('data', function(doc) {
-							console.log(doc);
+							//console.log(doc);
 				      images.push(doc);
 				    });
 /*
@@ -107,15 +119,6 @@ io.on('connection', function (socket) {
 		});
   });
 
-	socket.on('loadMore', function (max) {
-			// send more data on request
-		console.log(max);
-		
-	    socket.emit('moreImages', {
-	      data: images.slice(max,max+10)
-	    });
-	  });
-	
 });
 
 
