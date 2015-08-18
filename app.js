@@ -77,6 +77,7 @@ io.on('connection', function (socket) {
 	
   // when the client emits 'new message', this listens and executes
   socket.on('initialLoad', function (map) {
+		images = []
 		console.log('loading');
 		MongoClient.connect("mongodb://localhost:27017/homeserv", function(err, db) {
 		  if(!err) {
@@ -85,14 +86,18 @@ io.on('connection', function (socket) {
 			
 
 				var cursor = collection.find({
-						"CreationDate" : { $gte : new Date(map.date) }
-					},
-					{}
-//					{ limit : 2000 }
-				);
+						"Datetime" : { $gte : new Date(map.date) }
+							},
+							{},
+							{ limit : 10000 }
+						);
 				    cursor.on('data', function(doc) {
 							//console.log(doc);
 				      images.push(doc);
+				    });
+				    cursor.once('end', function() {
+							console.log('closing db');
+				      db.close();
 				    });
 /*
 				    cursor.once('end', function() {

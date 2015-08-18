@@ -1,6 +1,8 @@
 // global $ //
-var socket = io();
-var imageMax=0;
+var socket = io(),
+	imageMax=0;
+
+
 $("document").ready( function () {
 
 //	socket.emit('initialLoad'); // request mongo to start adding to images list;
@@ -19,15 +21,18 @@ $("document").ready( function () {
 				if (index > -1) {
 					index = index -1					
 				
-					console.log(index, $(this).attr('title'))
 					$(this).attr('title',index);
 					src = $('#'+index.toString()+'-img').attr('src').replace('_0','_1');
+					console.log(src)
 					$('.modal-body img').attr('src', src);
 					break;
 				}
 			case 39:
 				// right key
-				index = index +1;
+				if (index < imageMax){
+					index = index +1;					
+				}
+				
 				console.log(index, $(this).attr('title'))
 				$(this).attr('title',index);
 				src = $('#'+index.toString()+'-img').attr('src').replace('_0','_1');
@@ -52,16 +57,30 @@ $("document").ready( function () {
 			$.each(result.data, function (index, photo) {
 				console.log(index, photo);
 				// parseFileDir(data[i].id)+data[i].id+'.jpg'
-				var hash_id = photo._id
+				var hash_id = photo._id, s = '', r = '',
+				angle = photo['Orientation'];
 				baseUrl = parseFileDir(hash_id)+hash_id;
-				i = (parseInt(imageMax)+parseInt(index)).toString();
-				$(".image-row").append('<li id="'+i+'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><img id="'+index+'-img" src="'+baseUrl+'_0.jpg'+'"/></li>');
+				if (imageMax > 10) {
+					i = (parseInt(imageMax)+parseInt(index)).toString();
+				} else {
+					i = index;
+				}
+				$(".image-row").append(
+					String()
+					+ '<li id="'+i+'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4 img-container">'
+						+  '<img id="'+i+'-img" src="'+baseUrl+'_0.jpg">'
+//  				+  '<p>CreationDate: '+photo['CreationDate']+'</p>'
+						+  '<p>Datetime: '+photo['Datetime']+'</p>'
+//					+	 '<p>ODatetime'+photo['OriginalDateTime']+'</p>'
+						+  '<p>'+angle+'</p>'
+					+ '</li>'
+				);
 			})
 								
 			$('li img').on('click',function(e){
 				console.log($(this).parent().attr('id'))
 				var src = $(this).attr('src').replace('_0','_1');
-				var img = '<img src="' + src + '" class="img-responsive"/>';
+				var img = '<img src="' + src + '" class="img-responsive">';
 				$('#myModal').attr('title', $(this).parent().attr('id'));
 				$('#myModal').modal();
 				$('#myModal').on('shown.bs.modal', function(){

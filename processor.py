@@ -36,12 +36,22 @@ RAW_EXTENSIONS = ['.nef', '.cr2', '.dng']
 # Object to count filetypes in search directory
 FILEINDEX = {x.lower():0 for x in FILETYPES}
 OUTDIR = '/Volumes/SATA 1500/homeserv_media/'
+#OUTDIR = '/Users/matt/Desktop/test2/'
 DB_ERRORS = ['db_errors']
 IM_ERRORS = ['im_errors']
 
 # Directory of media to scan
-SOURCE_MEDIA_DIR = '/Volumes/SATA 1500/'
 
+if '-s' in sys.argv:
+    SOURCE_MEDIA_DIR = sys.argv[sys.argv.index('-s')+1]
+else:    
+    SOURCE_MEDIA_DIR = '/Volumes/SATA 1500/'
+
+ROTATEMAP = {
+    'Rotated 90 CCW':270,
+    'Rotated 180':180,
+    'Rotated 90 CW':90
+}
 
 # EXIF metadata to store - and give it a nice new name that I recognize
 METATAGS = {
@@ -109,7 +119,7 @@ def findImage():
                         #    print x,':',y,type(y)
                         outfile = file_hash_dir+file_hash+'.jpg'
                     
-                        proxify(file_path, file_hash_dir+file_hash)
+                        proxify(file_path, file_hash_dir+file_hash, meta['Orientation'])
                 
                         try:
                             insert_id = collection.insert_one(meta).inserted_id
@@ -130,7 +140,7 @@ def findImage():
         for x,y in FILEINDEX.iteritems():
             print x,y
 
-def proxify(file_path, out_path):
+def proxify(file_path, out_path, orientation):
     os.makedirs(os.path.dirname(out_path))
     
     try:
@@ -145,8 +155,13 @@ def proxify(file_path, out_path):
             # otherwise every other image type (not raw)
             im = Image.open(file_path)
 
+        # rotate image as necessary 90, 180, 270 from metadata.
+        if orientation in ROTATEMAP:
+            print 'ROTATING!',orientation
+            im = im.rotate(ROTATEMAP[orientation], expand=True)
+
         for s in THUMB_SIZE:
-            im2 = im.copy()
+            im2 = im.copy() # create copy to allow for different resolution images to be created from full res. Just trust me...
             im2.thumbnail(s, Image.ANTIALIAS)
             im2.save(out_path + '_' + str(THUMB_SIZE.index(s)) + '.jpg', "JPEG")
             im2.close()
