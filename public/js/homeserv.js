@@ -29,9 +29,7 @@ $("document").ready( function () {
 				}
 			case 39:
 				// right key
-				if (index < imageMax){
-					index = index +1;					
-				}
+				index = index +1;					
 				
 				console.log(index, $(this).attr('title'))
 				$(this).attr('title',index);
@@ -41,13 +39,23 @@ $("document").ready( function () {
 			}
 		})
 		
+		// add more images on spacebar press
 	$(document).keyup(function(e){
+		console.log($('.body').scrollTo)
 		if (event.keyCode === 32){
-			console.log(imageMax);
- 			socket.emit('loadMore', imageMax)
+			var lastImage = $('li').last().attr('name');
+ 			socket.emit('loadMore',  lastImage)
 		}
 	})
-		
+
+	// add more images on scroll near bottom
+	$(window).scroll(function() {
+	   if($(window).scrollTop() + $(window).height() > $(document).height() - 300) {
+				var lastImage = $('li').last().attr('name');
+	      socket.emit('loadMore', lastImage)
+	   }
+	});
+	
 	function addImages ( result ) {
 			var carouselLinks = [],
 			linksContainer = $('#links'),
@@ -55,7 +63,7 @@ $("document").ready( function () {
 			imageMax = imageMax + result.data.length;
 			// Add the demo images as links with thumbnails to the page:
 			$.each(result.data, function (index, photo) {
-				console.log(index, photo);
+
 				// parseFileDir(data[i].id)+data[i].id+'.jpg'
 				var hash_id = photo._id, s = '', r = '',
 				angle = photo['Orientation'];
@@ -67,7 +75,7 @@ $("document").ready( function () {
 				}
 				$(".image-row").append(
 					String()
-					+ '<li id="'+i+'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4 img-container">'
+					+ '<li name="'+photo['Datetime']+'" id="'+i+'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4 img-container">'
 						+  '<img id="'+i+'-img" src="'+baseUrl+'_0.jpg">'
 //  				+  '<p>CreationDate: '+photo['CreationDate']+'</p>'
 						+  '<p>Datetime: '+photo['Datetime']+'</p>'
@@ -78,7 +86,7 @@ $("document").ready( function () {
 			})
 								
 			$('li img').on('click',function(e){
-				console.log($(this).parent().attr('id'))
+
 				var src = $(this).attr('src').replace('_0','_1');
 				var img = '<img src="' + src + '" class="img-responsive">';
 				$('#myModal').attr('title', $(this).parent().attr('id'));
@@ -91,7 +99,8 @@ $("document").ready( function () {
 				});
 		})
 	}
-	$('#moreButton').on('click', function (e) {
+
+	$('#initalLoadButton').on('click', function (e) {
 		e.preventDefault();
 		console.log('socketing');
 	  var date = $('#datetimepicker2').val();
@@ -103,6 +112,7 @@ $("document").ready( function () {
 			}
 		);
 	})
+
 	socket.on('moreImages', function (results) {
 		addImages(results);		
 	})
