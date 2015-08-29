@@ -61,13 +61,13 @@ io.on('connection', function (socket) {
 						{
 							Datetime : 
 							{
-								"$lt" : new Date(max) 
+								"$gt" : new Date(max) 
 							} 
 						})
 					.limit(20)
 					.sort(
 						{
-							"Datetime":-1
+							Datetime : 1
 						})
 						.toArray(function(err, items) {
 					    socket.emit('moreImages', {

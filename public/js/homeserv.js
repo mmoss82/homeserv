@@ -52,6 +52,7 @@ $("document").ready( function () {
 	$(window).scroll(function() {
 	   if($(window).scrollTop() + $(window).height() > $(document).height() - 300) {
 				var lastImage = $('li').last().attr('name');
+				console.log('lastImage: ',lastImage);
 	      socket.emit('loadMore', lastImage)
 	   }
 	});
