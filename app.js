@@ -36,13 +36,15 @@ MongoClient.connect("mongodb://localhost:27017/homeserv", function(err, db) {
 			console.log('user connected');
 		  // when the client emits 'new message', this listens and executes
 		  socket.on('initialLoad', function (map) {
-				console.log('loading');		
+				console.log('loading date: ',map.date);		
 				var cursor = collection.find({
 					OriginalDateTime : { $gte : new Date(map.date) }
 						},
 						{},
 						{ limit : 20 }
-					).toArray(function(err, items) {
+					).sort({
+							OriginalDateTime : 1
+						}).toArray(function(err, items) {
 						console.log('sending more images');
 				    socket.emit('moreImages', {
 				      data: items

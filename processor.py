@@ -25,12 +25,11 @@ collection = db.media
 #con = psycopg2.connect("dbname='homeserv' user='matt'")   
 #cur = con.cursor() 
 
-
-
 THUMB_SIZE = [(250,250),(800,800)]
 
 # Supported Filetypes ( for now )
-FILETYPES = ('.jpg', '.JPG', '.TIF', '.tif', '.tiff', '.TIFF', '.psd', '.NEF', '.nef', '.CR2', '.cr2', '.PSD','.jpeg','.JPEG')
+FILETYPES = ('.jpg', '.JPG', '.TIF', '.tif', '.tiff', '.TIFF', '.psd', '.NEF', '.nef', '.CR2', '.cr2', '.PSD','.jpeg','.JPEG','.mov','.MOV')
+MOVIE_EXTENSIONS = ('.mov','.MOV')
 RAW_EXTENSIONS = ['.nef', '.cr2', '.dng']
 
 # Object to count filetypes in search directory
@@ -39,6 +38,7 @@ OUTDIR = '/Volumes/SATA 1500/homeserv_media/'
 #OUTDIR = '/Users/matt/Desktop/test2/'
 DB_ERRORS = ['db_errors']
 IM_ERRORS = ['im_errors']
+TEST = False
 
 # Directory of media to scan
 
@@ -46,6 +46,9 @@ if '-s' in sys.argv:
     SOURCE_MEDIA_DIR = sys.argv[sys.argv.index('-s')+1]
 else:    
     SOURCE_MEDIA_DIR = '/Volumes/SATA 1500/'
+if '-test' in sys.argv:
+    TEST = True
+
 
 ROTATEMAP = {
     'Rotated 90 CCW':270,
@@ -98,7 +101,8 @@ def findImage():
                 if ext in FILETYPES and '/Volumes/SATA 1500/homeserv_media' not in root : # This is where I went wrong! DOUBLECHECK!!!
                     file_path = os.path.join(root, f)
 
-                    if not collection.find_one({'OriginalPath':file_path}):
+                    
+                    if not collection.find_one({'OriginalPath':file_path}) or TEST:
                         m.update(file_path)
                         file_hash = m.hexdigest()[:16]
                         file_hash_dir = OUTDIR+'/'.join([file_hash[x:x+2] for x in range(0,len(file_hash),2)])+'/'
@@ -113,18 +117,19 @@ def findImage():
                         for x,y in tags.iteritems():
                             if x not in TAG_LIST and x not in ('JPEGThumbnail', 'TIFFThumbnail', 'Filename', 'EXIF MakerNote') and y != '':
                                 TAG_LIST[x]=y
+
                         FILEINDEX[ext.lower()] += 1
                     
                         #for x,y in meta.iteritems():
                         #    print x,':',y,type(y)
                         outfile = file_hash_dir+file_hash+'.jpg'
                     
-                        proxify(file_path, file_hash_dir+file_hash, meta['Orientation'])
+                        #proxify(file_path, file_hash_dir+file_hash, meta['Orientation'])
                 
                         try:
-                            insert_id = collection.insert_one(meta).inserted_id
+                            #insert_id = collection.insert_one(meta).inserted_id
                             print outfile, os.path.basename(file_path), ' <---- inserting'
-                        
+
                         except:
                             print traceback.print_exc()
                             print 'error adding to db: ',file_path
@@ -189,7 +194,6 @@ def makeMeta(tags):
             meta[METATAGS[x]] = ''
     meta['Datetime'] = convertDate(meta['Datetime'])
     meta['OriginalDateTime'] = convertDate(meta['OriginalDateTime'])
-
     return meta
 
 def convertDate(d):

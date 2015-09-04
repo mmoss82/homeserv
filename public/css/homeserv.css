@@ -12,6 +12,10 @@ ul {
     padding:0 0 0 0;
     margin:0 0 0 0;
 }
+.image-row {
+	margin-top: 75px;
+}
+
 .image-row ul li {
     list-style:none;
     margin-bottom:25px;

@@ -83,7 +83,7 @@ $("document").ready( function () {
 
 				i = index + iMax;
 				i = i.toString();
-				
+				console.log(photo);
 				$(".image-row").append(
 					String()
 					+ '<li name="'+photo['OriginalDateTime']+'" id="'+i+'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4 img-container">'
@@ -117,6 +117,7 @@ $("document").ready( function () {
 	$('#initalLoadButton').on('click', function (e) {
 		e.preventDefault();
 	  var newdate = $('#datetimepicker2').val();
+		imageMax = 0;
 		$(".image-row").empty();
 		console.log('socketing', newdate);
 		socket.emit('initialLoad', 
