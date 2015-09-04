@@ -26,51 +26,43 @@
 
 
     <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-					    <div class="row">
-					        <div class='col-sm-6'>
-					            <div class="form-group">
-					                <div class='input-group date' id='datetimepicker1'>
-					                    <input type='text' class="form-control" id='datetimepicker2'/>
-					                    <span class="input-group-addon">
-					                        <span class="glyphicon glyphicon-calendar"></span>
-					                    </span>
-					                </div>
-					            </div>
-					        </div>
-					        <script type="text/javascript">
-					            $(function () {
-					                $('#datetimepicker1').datetimepicker(
-					                	{format: 'MM/DD/YYYY'}
-					                );
-					            });
-					        </script>
-					    </div>
-        			<button type="button" id="initalLoadButton">get more images</button>
-				
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-   
-            <!-- /.navbar-collapse -->
-				</div>
-        <!-- /.container -->
-    </nav>
-		<div class="container">
-			<ul class="image-row">
-    	</ul>
-		</div>
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<form class="navbar-form navbar-left homeserv-nav" role="search">
+		  <div class="form-group">
+				<div class='input-group date' id='datetimepicker1'>
+					<input type='text' class="form-control" id='datetimepicker2'/>
+					<span class="input-group-addon">
+		      	<span class="glyphicon glyphicon-calendar"></span>
+		      </span>
+		    </div>
+			</div>
+		  <script type="text/javascript">
+		    $(function () {
+		      $('#datetimepicker1').datetimepicker(
+		      	{format: 'MM/DD/YYYY'}
+		      );
+		    });
+		  </script>
+			<button type="button" id="initalLoadButton">get more images</button>
+		</form>
+	</nav>
 
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-body">
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+
+
+
+	<div class="container">
+		<ul class="image-row">
+  	</ul>
+	</div>
+
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 
 	<br>
    

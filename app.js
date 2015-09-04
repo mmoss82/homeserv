@@ -25,25 +25,20 @@ app.get('/', function (req, res) {
 });
 
 
-io.on('connection', function (socket) {
 
-	console.log('user connected');
-  // when the client emits 'new message', this listens and executes
   
-	MongoClient.connect("mongodb://localhost:27017/homeserv", function(err, db) {
-	  if(!err) {
-	    console.log("We are connected");
-			var collection = db.collection('media');
+MongoClient.connect("mongodb://localhost:27017/homeserv", function(err, db) {
+  if(!err) {
+    console.log("We are connected");
+		var collection = db.collection('media');
 
-			
-
+		io.on('connection', function (socket) {
+			console.log('user connected');
+		  // when the client emits 'new message', this listens and executes
 		  socket.on('initialLoad', function (map) {
-
 				console.log('loading');		
-
-			
 				var cursor = collection.find({
-					"Datetime" : { $gte : new Date(map.date) }
+					OriginalDateTime : { $gte : new Date(map.date) }
 						},
 						{},
 						{ limit : 20 }
@@ -53,37 +48,31 @@ io.on('connection', function (socket) {
 				      data: items
 				    });
 					})
-
+				})
 				socket.on('loadMore', function (max) {
 					// send more data on request
 					console.log(max);
-					collection.find( 
-						{
-							Datetime : 
-							{
+					collection.find({
+						OriginalDateTime : {
 								"$gt" : new Date(max) 
 							} 
 						})
 					.limit(20)
-					.sort(
-						{
-							Datetime : 1
+					.sort({
+							OriginalDateTime : 1
 						})
 						.toArray(function(err, items) {
 					    socket.emit('moreImages', {
 					      data: items
 					    });
-							
 						})
-						
 			  });
-
 		  }
 		);
-  } else {console.log(err)}
-
-});
-});
+	} else {
+			console.log(err)
+		}
+});	
 
 
 //			    cursor.on('data', function(doc) {
