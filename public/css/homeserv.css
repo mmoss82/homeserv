@@ -1,6 +1,11 @@
 .homeserv-nav{
 }
-
+.center-cropped {
+    width: 200px;
+    height: 200px;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
 .thumb {
     margin-bottom: 30px;
 }
@@ -14,6 +19,7 @@ ul {
 }
 .image-row {
 	margin-top: 75px;
+  list-style:none;
 }
 
 .image-row ul li {
@@ -23,7 +29,24 @@ ul {
 ul li img {
     cursor: pointer;
 }
+.img-vid-icon {
+    position: absolute;
+    right: 0px;
+    width: 30px;
+    padding: 5px;
+}
+.a-container {
+    position: relative;
+}
 .img-container{
-  text-align: center;
+    object-fit: cover; /* fill to cover height + width  */
+    object-position: center; /* Center the image within the element */
+    height: 200px;
+    width: 200px;
+    text-align: center;
 	font-size: 10px;
+    padding: 2px;
+}
+.img-selected{
+    opacity:0.5;
 }
