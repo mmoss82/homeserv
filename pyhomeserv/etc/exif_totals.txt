@@ -1,0 +1,206 @@
+Image Predictor : Horizontal differencing
+MakerNote ContinuousDriveMode : Single Or Timer
+MakerNote SelfTimer : 0
+Image ExifOffset : 50
+EXIF ComponentsConfiguration : YCbCr
+EXIF CustomRendered : Normal
+MakerNote ExposureMode : Easy Shooting
+MakerNote Sharpness : Normal
+EXIF FocalPlaneResolutionUnit : 2
+MakerNote CropHiSpeed : [0, 6080, 4044, 6080, 4044, 0, 0]
+MakerNote MakernoteVersion : 0210
+EXIF MeteringMode : Pattern
+MakerNote ExternalFlashExposureComp : 0 EV
+MakerNote AFInfo2 : [48, 49, 48, 48, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+EXIF Contrast : Normal
+Image SubfileType : Full-resolution Image
+Image YCbCrCoefficients : [299/1000, 587/1000, 57/500]
+Interoperability InteroperabilityVersion : [48, 49, 48, 48]
+EXIF FocalLengthIn35mmFilm : 85
+EXIF DateTimeOriginal : 2011:09:03 16:20:56
+MakerNote MeteringMode : Evaluative
+MakerNote SequenceNumber : 0
+MakerNote LensData : [48, 50, 48, 51, 128, 145, 239, 125, 23, 11, 14, 133, 92, 230, 244, 206, 98, 211, 185, 152, 200, 45, 199, 150, 154, 211, 65, 228, 188, 201, 11, 130]
+MakerNote ThumbnailImageValidArea : [0, 0, 0, 0]
+EXIF SceneType : Directly Photographed
+Thumbnail YCbCrPositioning : Co-sited
+EXIF ExposureBiasValue : 0
+MakerNote DeletedImageCount : 0
+MakerNote NoiseReduction : OFF 
+MakerNote FocusMode : Single
+MakerNote DateStampMode : Off
+MakerNote ColorSpace : 2
+MakerNote NikonPreview : 8102
+MakerNote FirmwareVersion : Firmware Version 1.00
+Image ImageWidth : 2031
+EXIF ExifImageWidth : 1961
+MakerNote Unknown : 22
+MakerNote NEFCurve2 : [70, 48, 8, 0, 8, 0, 8, 0, 8, 0, 0, 34, 183, 42, 170, 157, 224, 114, 94, 145, 24, 245, 28, 153, 101, 130, 240, 175, 191, 32, 210, 210, 47, 198, 193, 2, 167, 134, 197, 90, 33, 88, 216, 166, 202, 54]
+MakerNote NEFCurve1 : [73, 48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... ]
+MakerNote WhiteBalanceRBCoeff : [281/128, 91/64, 1, 1]
+EXIF SubSecTimeOriginal : 58
+MakerNote Tag 0x002A : 0
+Image StripByteCounts : [971, 971, 971, 3981, 98681, 110845, 113516, 123159, 124949, 103359, 105697, 112226, 109483, 112615, 102615, 120295, 120149, 117188, 124504, 128819, 133327, 136654, 141518, 140650, 140497, 147935, 137808, 121859, 134373, 126449, 135007, 128376, 62618, 971, 971, 971, 650]
+Image XResolution : 3692727/10000
+Image YResolution : 3692727/10000
+MakerNote ShotInfo : []
+MakerNote FileInfo : [48, 49, 48, 48, 0, 1, 0, 112, 37, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... ]
+Interoperability InteroperabilityIndex :     
+EXIF SubjectDistance : 237/100
+MakerNote FlashInfo : [0, 0, 0, 0]
+MakerNote FocalLength : 2
+EXIF SubSecTimeDigitized : 58
+MakerNote RetouchHistory : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+MakerNote NoteVersion : 0130
+MakerNote ColorMode : MODE1   
+Image RowsPerStrip : 43
+EXIF ShutterSpeedValue : 75/8
+MakerNote HueAdjustment : 0
+MakerNote LensType : 65535
+Image Software : Picasa 3.0
+MakerNote Quality : NORMAL 
+EXIF Saturation : Normal
+MakerNote WhiteBalance : Auto
+MakerNote Whitebalance : AUTO        
+EXIF ExposureTime : 1/640
+Image Orientation : Horizontal (normal)
+MakerNote FlashBracketCompensationApplied : 0 EV
+Image YCbCrPositioning : Co-sited
+Image StripOffsets : [27334, 28306, 29278, 30250, 34232, 132914, 243760, 357276, 480436, 605386, 708746, 814444, 926670, 1036154, 1148770, 1251386, 1371682, 1491832, 1609020, 1733524, 1862344, 1995672, 2132326, 2273844, 2414494, 2554992, 2702928, 2840736, 2962596, 3096970, 3223420, 3358428, 3486804, 3549422, 3550394, 3551366, 3552338]
+MakerNote ISO : Auto
+MakerNote Tag 0x0012 : [9, 9, 2272, 1704, 2272, 284, 409, 51, 65127, 0, 409, 65127, 0, 409, 65127, 0, 409, 65484, 65484, 65484, 0, 0, 0, 52, 52, 52, 1, 0]
+GPS GPSVersionID : [2, 2, 0, 0]
+Thumbnail XResolution : 72
+MakerNote Saturation : Normal
+MakerNote ProgramShift : 0 EV
+MakerNote ImageSize : Large
+MakerNote ImageCount : 25758
+Image GPSInfo : 1008
+MakerNote FocalUnitsPerMM : 1000
+Image Copyright :                    , ... ]
+Thumbnail JPEGInterchangeFormatLength : 7551
+EXIF ExposureMode : Auto Exposure
+MakerNote SerialNumber : 5010629
+MakerNote ModelID : PowerShot SD300 / Digital IXUS 40 / IXY Digital 50
+Image InterColorProfile : []
+Image ReferenceBlackWhite : [0, 255, 0, 255, 0, 255]
+MakerNote Tag 0x00A3 : 0
+MakerNote AFTune : [0, 255, 0, 0]
+MakerNote Tag 0x00A4 : [48, 50, 48, 48]
+Image PlanarConfiguration : 1
+EXIF DigitalZoomRatio : 1
+Image Tag 0x8649 : []
+EXIF ColorSpace : Uncalibrated
+EXIF FocalLength : 35
+MakerNote MultiExposure : [48, 49, 48, 48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+MakerNote ExposureDifference : 0 EV
+MakerNote LensMinMaxFocalMaxAperture : [24, 24, 14/5, 14/5]
+MakerNote ManualFlashOutput : n/a
+MakerNote VRInfo : [48, 49, 48, 48, 2, 2, 0, 0]
+Interoperability RelatedImageLength : 2272
+EXIF Sharpness : Normal
+MakerNote ImageNumber : 1191934
+MakerNote FlashMode : Auto
+MakerNote RecordMode : JPEG
+Image SamplesPerPixel : 3
+EXIF FlashPixVersion : 0100
+Image WhitePoint : [313/1000, 329/1000]
+MakerNote AutoFlashMode :                    
+MakerNote ImageSharpening : AUTO  
+MakerNote Tag 0x00BA : []
+MakerNote ColorBalance : []
+MakerNote ImageDataSize : 8748287
+MakerNote ToneCompensation : AUTO    
+MakerNote PhotoCornerCoordinates : [0, 0, 4544, 3024]
+EXIF Flash : Flash did not fire, compulsory flash mode
+MakerNote AESetting : Normal AE
+Image IPTC/NAA : [28, 2, 0, 0, 2, 0, 0]
+MakerNote AEBracketCompensationApplied : 0
+MakerNote HighISONoiseReduction : 0
+Thumbnail JPEGInterchangeFormat : 280
+MakerNote Tag 0x0000 : [18, 0, 0, 1, 0, 0, 0, 0, 0]
+EXIF Gamma : 11/5
+EXIF FileSource : Digital Camera
+MakerNote LightingType : NATURAL    
+EXIF ExifImageLength : 1287
+MakerNote FlashSetting : NORMAL      
+MakerNote FocalType : Unknown
+MakerNote Macromode : Normal
+EXIF CompressedBitsPerPixel : 2
+MakerNote ExposureTuning : [0, 1, 6]
+MakerNote OwnerName : 
+MakerNote FocusType : Auto
+MakerNote Compression : 3
+MakerNote SpotMeteringMode : Center
+Thumbnail Compression : JPEG (old-style)
+MakerNote RawImageCenter : [3039, 2022]
+EXIF FocalPlaneYResolution : 1360000/479
+MakerNote ISOSetting : [0, 400]
+MakerNote FlashDetails : Unknown
+Image Artist :                                     
+EXIF SceneCaptureType : Standard
+MakerNote BracketingMode : Single frame, no bracketing
+MakerNote FlashCompensation : 0 EV
+EXIF GainControl : Low gain up
+MakerNote ImageOptimization : NORMAL         
+Image Make : Canon
+EXIF WhiteBalance : Auto
+EXIF ISOSpeedRatings : 320
+EXIF ImageUniqueID : cfb8437c9b7c8bd32e2848d0d8abb0cd
+MakerNote AFFocusPosition : Center3CenterCenter
+MakerNote WhiteBalanceBias : [0, 0]
+MakerNote ImageStabilization : Unknown
+EXIF MaxApertureValue : 1
+MakerNote ISOSpeedRequested : [0, 400]
+EXIF SensingMethod : One-chip color area
+Image DateTimeOriginal : 2008:06:18 20:36:12
+Thumbnail ResolutionUnit : Pixels/Inch
+EXIF FocalPlaneXResolution : 4080000/1459
+MakerNote SensorPixelSize : [121/20, 121/20]
+EXIF SubjectDistanceRange : 0
+MakerNote Contrast : Normal
+EXIF LightSource : Unknown
+MakerNote AFPointUsed : 0
+MakerNote SubjectDistance : 27
+Image Tag 0x014A : [183808, 183928]
+Image DateTime : 2011:06:12 19:01:40
+MakerNote ActiveDLighting : 0
+MakerNote EasyShootingMode : Full Auto
+MakerNote AutoBracketRelease : 1
+EXIF ExifVersion : 0210
+MakerNote PictureControl : [48, 49, 48, 48, 83, 84, 65, 78, 68, 65, 82, 68, 0, 0, 0, 0, 0, 0, 0, 0, ... ]
+Thumbnail YResolution : 72
+EXIF SubSecTime : 58
+Image Model : Canon EOS 5D Mark II
+MakerNote DigitalZoom : None
+EXIF ApertureValue : 1
+EXIF InteroperabilityOffset : 150
+Image Tag 0x9216 : [1, 0, 0, 0]
+MakerNote TotalShutterReleases : 26915
+Interoperability RelatedImageWidth : 1704
+EXIF FNumber : 7/5
+Image ResolutionUnit : Pixels/Inch
+MakerNote ImageAuthentication : 0
+Image Compression : LZW
+Image ImageLength : 1569
+MakerNote Tag 0x0019 : 1
+MakerNote Tag 0x0018 : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... ]
+Image Tag 0x935C : []
+EXIF ExposureProgram : Aperture Priority
+MakerNote FlashBias : 0 EV
+Image PhotometricInterpretation : 2
+MakerNote AFPointSelected : Unknown
+EXIF UserComment : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+MakerNote LensFStops : [72, 1, 12, 0]
+MakerNote ISOInfo : [84, 1, 12, 0, 0, 0, 84, 1, 12, 0, 0, 0, 0, 0]
+MakerNote SlowShutter : Off
+EXIF DateTimeDigitized : 2011:09:03 16:20:56
+Image BitsPerSample : [8, 8, 8]
+EXIF CVAPattern : [0, 2, 0, 2, 0, 1, 1, 2]
+MakerNote LongFocalLengthOfLensInFocalUnits : 17400
+MakerNote ImageType : IMG:PowerShot SD300 JPEG
+MakerNote FlashActivity : Unknown
+MakerNote WorldTime : [254, 212, 0, 1]
+Image ApplicationNotes : []
+MakerNote ShortFocalLengthOfLensInFocalUnits : 5800
+Image PrimaryChromaticities : [16/25, 33/100, 21/100, 71/100, 3/20, 3/50]
