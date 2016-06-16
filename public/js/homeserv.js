@@ -51,7 +51,7 @@ $("document").ready( function () {
 					$(this).attr('title',index);
 					src = img.attr('src').replace('_0','_1');
 					console.log(src)
-					$('.modal-body img').attr('src', src);
+					$('#myModal .modal-body img').attr('src', src);
 				}
 				break;
 			case 39:
@@ -71,7 +71,7 @@ $("document").ready( function () {
                       src = img.attr('src').replace('_0','_1');
                       src = '<img src="' + src + '" class="img-responsive">'
                     }
-                    $('.modal-body').html(src);
+                    $('#myModal .modal-body').html(src);
                     console.log('date',img);
 				} else {
 					lastImage.date = $('li').last().attr('name');
@@ -95,8 +95,7 @@ $("document").ready( function () {
 	
     // handle hashtag key presses to add tag to multiple images //
     $(window).keypress(function (key) {
-        
-        if (key.keyCode !== 35) { return; }
+        if (key.key !== '#') { return; }
 
         // abort if img modal is open //
         if ($('#myModal').is(':visible')) { return; }
@@ -113,40 +112,36 @@ $("document").ready( function () {
     		// press enter handler in 'on the fly' tag multi edit //
         if (key.keyCode !== 13) { return; }
         var input = $('#modal-tag-input'),
-            tag = input.val().replace('#',''),
-            selected = $.find('.img-selected'),
-						map = {};
+          tags = input.val().replace('#','').split(" "),
+					selected = $.find('.img-selected')
+					map={};
 				
-				map.data = [];
-				map.tag = tag;
-
 				for (var i=0; i < selected.length; i++ ) {
 					var id = $(selected[i]).data('hash');
-					singleTagSubmit({id:id,tag:tag});
-					map.data.push({'_id':id})
+					for ( var t=0; t < tags.length; t++) {
+					    console.log("adding tag: ",tags[t]);
+                        map = {};
+						map.data = [];
+						map.tag = [tags[t]];
+						singleTagSubmit({id:id,tag:tags[t]});
+						map.data.push({'_id':id})						
+						uiTagUpdate(map);
+					}
 					// de-highlight //
 					$(selected[i]).removeClass('img-selected');
 				}
-
-				uiTagUpdate(map);
-				
 				$('#tagInputModal').modal('toggle');
     });
 
-		function singleTagSubmit (map) {
-			
+	function singleTagSubmit (map) {			
 	      $('#image-tags').append(addTag(map.tag));
 	      modal_tags.push(map.tag);
-
 	      $('#tag-input').val('');
-    
 	      console.log('single case');
 	      socket.emit('addTagSingle', map);
-
 		};
 
-		function uiTagUpdate (results) {
-			
+	function uiTagUpdate (results) {
         console.log(results);
         var tagResultArray = [];
         var thumbs = $('.image-row').find('img');
@@ -155,7 +150,6 @@ $("document").ready( function () {
             //console.log(results.data[i]);
             tagResultArray.push(results.data[i]._id);
         }
-        
         for (var n=0; n < thumbs.length; n++) {
             var img = $(thumbs[n]);
             if (tagResultArray.indexOf(img.data('hash')) > -1) {
@@ -164,12 +158,11 @@ $("document").ready( function () {
                 var inArray = (tagArray.indexOf(results.tag) > -1);
                 if (!inArray) {
                     tagArray.push(results.tag);
-                
                     img.data('tags',tagArray);   
                 }
             }
         } 
-    }
+    };
 	function addImages ( result ) {
 			var carouselLinks = [],
 			linksContainer = $('#links'),
@@ -203,7 +196,7 @@ $("document").ready( function () {
 
 				$(".image-row").append(
 					String()
-					+ '<a class="a-container" href="#" name="'+photo['OriginalDateTime']+'" id="'+i+'">'
+					+ '<a class="a-container" name="'+photo['OriginalDateTime']+'" id="'+i+'">'
                         +  pic
                         + vid_icon
                         //    				+  '<p>CreationDate: '+photo['CreationDate']+'</p>'
@@ -238,17 +231,47 @@ $("document").ready( function () {
                         + '</video>'
             })*/
 
-			$('.img-container').on('click',function(e){
+			$('.img-container').off().on('click',function(e){
           var src, img,
             $this = $(this),
             thisClass = $this.attr('class');
 
-          if (e.shiftKey) {
+          if (e.ctrlKey) {
               e.preventDefault();
-              $this.toggleClass('img-selected');
+							// shift select multiple
+							if (e.shiftKey) {
+								var selected = $('.img-selected');
+								var low = $(selected[0]).parent().attr("id");
+								var clicked = parseInt($this.parent().attr("id"));
+								var img, num, i;
+
+								if ( low > clicked ) {
+									// going backwards
+									incr = -1
+								} else {
+									// going forwards
+									incr = 1
+								}
+								
+								i = parseInt(low);
+								// this is our starting point
+								n = i;
+								
+								for (; i != parseInt(clicked) + incr; i += incr ) {
+									img = $("#"+i+"-img");
+									if (img.attr("class").indexOf("img-selected") < 0 ){
+										img.toggleClass('img-selected');
+									}
+								}								
+							} else { // for single selections
+								if ($this.attr("class").indexOf("img-selected") < 0 ){
+									$this.addClass('img-selected');
+								} else {
+									$this.removeClass('img-selected');
+								}
+							}
               return;
-          } 
-          
+          }          
           if (thisClass == 'img img-container') {           
 	    				src = $this.attr('src').replace('_0','_1');
               img = '<img src="' + src + '" class="img-responsive">'
@@ -258,10 +281,9 @@ $("document").ready( function () {
               // + '<source src="mov'+photo['OriginalPath']+'" type="video/mov">'
                        + '</video>' 
           }
-
 					var modal = $('#myModal');
           var tags = $this.data().tags;
-          
+          console.log("setting modal_tags: ",tags); 
           modal_tags = tags || [];
           modal.attr('title', $this.attr('id'));
 	
@@ -301,7 +323,7 @@ $("document").ready( function () {
   var addTag = function(tag) {
       var tag_html = String()
           + '<span class="tag label label-info">' + tag
-              + '<a href="#" class="remove-tag">'
+              + '<a class="remove-tag">'
                   + '<span class="glyphicon glyphicon-remove" aria-hidden="true" data-role="remove"></span>'
               + '</a>'
           + '</span>'; 
@@ -320,17 +342,16 @@ $("document").ready( function () {
           var i = $('.modal').attr('title');
           var hash_id = $('#'+i).data('hash');
           var map = {};
-      
-          console.log('removing tag');
+            
+          console.log("removing: ",i,hash_id, modal_tags);
           removeTag($(this).parent());
 
-					// TODO figure this out
-
+		  // TODO figure this out
           map.id = hash_id;
-          map.tag_map = modal_tags;
+          map.tag = modal_tags;
           socket.emit('addTagSingle', map);
       });
-  }
+  };
 	
 	var tagSubmit = function(e) {
       var i = $('#myModal').attr('title');
@@ -341,30 +362,34 @@ $("document").ready( function () {
       			
       $('#tag-input').focus();
 
-      if (modal_tags.indexOf(tag) > 0 || tag == '' & tag_type !== 'add-tag-fav') {
-          return;
-      };    
-      
-      if (tag == '') {
-          
-          var fav_index = modal_tags.indexOf('fav');
-
-          if (fav_index < 0) {
-              console.log('adding fav tag');
-              tag = 'fav';
-          } else {
-              console.log('removing fav tag');
-              // remove fav from modal_tags
-              removeTag($($('#image-tags').children()[fav_index]));
-          }
-      }
-
       // handle removal of tags
+			var tags = tag.split(" ");
+			console.log(tags);
+			for (var t = 0; t < tags.length; t++ ) {
+				tag = tags[t];				
+	      if (modal_tags.indexOf(tag) > 0 || tag == '' & tag_type !== 'add-tag-fav') {
+	          return;
+	      };
+      
+	      if (tag == '') {
           
-      if (tag !== '') {
-          $('#image-tags').append(addTag(tag));
-          modal_tags.push(tag);
-      }
+	          var fav_index = modal_tags.indexOf('fav');
+
+	          if (fav_index < 0) {
+	              console.log('adding fav tag');
+	              tag = 'fav';
+	          } else {
+	              console.log('removing fav tag');
+	              // remove fav from modal_tags
+	              removeTag($($('#image-tags').children()[fav_index]));
+	          }
+	      }
+				console.log("adding tag: ",tags[t])
+	      if (tag !== '') {
+	          $('#image-tags').append(addTag(tag));
+	          modal_tags.push(tag);
+	      }
+			}
 
       $('#tag-input').val('');
 
@@ -387,7 +412,7 @@ $("document").ready( function () {
               $('#add-tag-fav').find('span').toggleClass('glyphicon-star-empty').toggleClass('glyphicon-star')
               socket.emit('addTagSingle', map);
               break;
-      }
+      };
 
   };    
 
@@ -420,6 +445,12 @@ $("document").ready( function () {
 				tag : search_tag	
 			}
 		);
+	});
+
+	$('#clear-selection-button').on('click', function () {
+		$('.img-selected').each(function(i,e) {
+			$(this).removeClass("img-selected");
+		})
 	});
 
 	socket.on('moreImages', function (results) {
