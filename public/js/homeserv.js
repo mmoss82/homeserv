@@ -10,6 +10,7 @@ var socket = io(),
 	},
   mediaCheckbox = '.*',
   modal_tags = [];
+	sel = false;
 
 $("document").ready( function () {
 
@@ -94,19 +95,25 @@ $("document").ready( function () {
 	});
 	
     // handle hashtag key presses to add tag to multiple images //
-    $(window).keypress(function (key) {
-        if (key.key !== '#') { return; }
+		// also handle global sel variable for making selections //
+		$(window).keypress(function (key) {
+			console.log("pressed: ",key.key);
+			if (key.key == "z") {sel = true};
+      if (key.key !== '#') { return; }
+      // abort if img modal is open //
+      if ($('#myModal').is(':visible')) { return; }
 
-        // abort if img modal is open //
-        if ($('#myModal').is(':visible')) { return; }
-
-        var modal = $('#tagInputModal'),
-            input = $('#modal-tag-input');
-						
-        modal.modal();
-        //input.val('');      
-        input.focus().val('');
+      var modal = $('#tagInputModal'),
+          input = $('#modal-tag-input');
+					
+      modal.modal();
+      //input.val('');      
+      input.focus().val('');
     });
+		
+		$(window).keyup(function(key) {
+			sel = false;
+		})
 
     $('#modal-tag-input').keypress(function (key) {
     		// press enter handler in 'on the fly' tag multi edit //
@@ -122,11 +129,12 @@ $("document").ready( function () {
 					    console.log("adding tag: ",tags[t]);
                         map = {};
 						map.data = [];
-						map.tag = [tags[t]];
-						singleTagSubmit({id:id,tag:tags[t]});
+						map.tag = tags[t];
 						map.data.push({'_id':id})						
 						uiTagUpdate(map);
 					}
+					// update mongo 
+					singleTagSubmit({id:id,tag:tags,push:true});					
 					// de-highlight //
 					$(selected[i]).removeClass('img-selected');
 				}
@@ -231,12 +239,14 @@ $("document").ready( function () {
                         + '</video>'
             })*/
 
-			$('.img-container').off().on('click',function(e){
+		$('.img-container').off().on('click',function(e){
           var src, img,
             $this = $(this),
             thisClass = $this.attr('class');
-
-          if (e.ctrlKey) {
+						console.log("ctrlKey: ",e.ctrlKey);
+						console.log("altKey: ",e.altKey);
+						console.log("sel",sel);
+          if (sel) {
               e.preventDefault();
 							// shift select multiple
 							if (e.shiftKey) {
@@ -281,7 +291,7 @@ $("document").ready( function () {
               // + '<source src="mov'+photo['OriginalPath']+'" type="video/mov">'
                        + '</video>' 
           }
-					var modal = $('#myModal');
+		  var modal = $('#myModal');
           var tags = $this.data().tags;
           console.log("setting modal_tags: ",tags); 
           modal_tags = tags || [];
@@ -369,12 +379,9 @@ $("document").ready( function () {
 				tag = tags[t];				
 	      if (modal_tags.indexOf(tag) > 0 || tag == '' & tag_type !== 'add-tag-fav') {
 	          return;
-	      };
-      
+	      };      
 	      if (tag == '') {
-          
 	          var fav_index = modal_tags.indexOf('fav');
-
 	          if (fav_index < 0) {
 	              console.log('adding fav tag');
 	              tag = 'fav';
@@ -394,7 +401,7 @@ $("document").ready( function () {
       $('#tag-input').val('');
 
       map.id = hash_id;
-      map.tag = tag;
+      map.tag = modal_tags;
       
       // TODO figure out how to update fav status without adding tag - or just add tag and get over it
       
@@ -420,9 +427,9 @@ $("document").ready( function () {
 
 
 	$('#addtoDropbox').on('click', function(e) {
-		var i = $('.modal').attr('title');
+		var i = $('#myModal').attr('title');
 		console.log('adding to dropbox');
-		socket.emit('addtoDropbox', $('#'+i+' img').data('hash'));
+		socket.emit('addtoDropbox', $('#'+i).data('hash'));
 	});
 	
 	$('#search-button').on('click', function(e) {
